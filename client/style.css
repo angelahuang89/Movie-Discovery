@@ -1,0 +1,39 @@
+html {
+  background-color: snow;
+}
+
+#app {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: center;
+}
+
+#movie-results {
+  padding-top: 20px;
+}
+
+#movie-list-container {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+}
+
+#search-bar {
+  font-size: 13px;
+  width: 250px;
+  height: 18px;
+}
+
+button {
+  height: 23px;
+  margin-left: 3px;
+  font-weight: 500;
+  background-color: lightgrey;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.poster {
+  margin-bottom: 10px;
+}
