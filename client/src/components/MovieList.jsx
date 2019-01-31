@@ -1,33 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import MovieTitle from './MovieTitle';
 
-const MovieList = props => (
-  <div>
-    { props.currentSearch ?
-      <div id='movie-results'>
-         <a href='/'>Back to homepage</a>
-        <h3>Movie results for {props.currentSearch}</h3>
-      </div> :
-      <h3>Popular Movies</h3>
-    }
-    <div id='movie-list-container'>
-      <ol>
-        {
-          props.movies.map(movie => {
-            return (
+const MovieList = (props) => {
+  const { currentSearch, movies, getMovieInfo } = props;
+  return (
+    <div>
+      { currentSearch
+        ? (
+          <div id="movie-results">
+            <a href="/">Back to homepage</a>
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+            <h3>Movie results for {currentSearch}</h3>
+          </div>
+        )
+        : <h3>Popular Movies</h3>
+      }
+      <div id="movie-list-container">
+        <ol>
+          {
+            movies.map(movie => (
               <MovieTitle
                 key={movie.id}
                 id={movie.id}
                 title={movie.title}
-                getMovieInfo={props.getMovieInfo}
+                getMovieInfo={getMovieInfo}
               />
-            );
-          })
-        }
-      </ol>
+            ))
+          }
+        </ol>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+MovieList.propTypes = {
+  currentSearch: PropTypes.string.isRequired,
+  movies: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getMovieInfo: PropTypes.func.isRequired,
+};
 
 export default MovieList;

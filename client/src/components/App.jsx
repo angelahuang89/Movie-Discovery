@@ -9,13 +9,13 @@ import MovieInfo from './MovieInfo';
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       movies: [],
       movie: null,
-      currentSearch: ''
-    }
+      currentSearch: '',
+    };
 
     this.searchMovies = this.searchMovies.bind(this);
     this.getMovieInfo = this.getMovieInfo.bind(this);
@@ -25,61 +25,71 @@ class App extends React.Component {
     this.searchMovies();
   }
 
-  searchMovies(searchTerm) {
-    axios.get('/search', {
-      params: {
-        term: searchTerm
-      }
-    })
-    .then(res => {
-      this.setState({
-        movies: res.data,
-        currentSearch: searchTerm
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
-
   getMovieInfo(id) {
     axios.get(`/info/${id}`)
-    .then(res => {
-      this.setState({
-        movie: res.data
+      .then((res) => {
+        this.setState({
+          movie: res.data,
+        });
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
       });
+  }
+
+  searchMovies(searchTerm = '') {
+    axios.get('/search', {
+      params: {
+        term: searchTerm,
+      },
     })
-    .catch(err => {
-      console.log(err);
-    })
+      .then((res) => {
+        this.setState({
+          movies: res.data,
+          currentSearch: searchTerm,
+        });
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   }
 
   render() {
+    const { currentSearch, movies, movie } = this.state;
     return (
       <BrowserRouter>
-        <div id='app'>
+        <div id="app">
           <h1>Movie Discovery</h1>
           <h2>Search and explore movies!</h2>
-          <Route exact={true} path='/' render={() => (
-            <div>
-              <Search searchMovies={this.searchMovies} />
-              <MovieList
-                currentSearch={this.state.currentSearch}
-                movies={this.state.movies}
-                getMovieInfo={this.getMovieInfo}
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <div>
+                <Search searchMovies={this.searchMovies} />
+                <MovieList
+                  currentSearch={currentSearch}
+                  movies={movies}
+                  getMovieInfo={this.getMovieInfo}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/info/:id"
+            render={() => (
+              <MovieInfo
+                currentSearch={currentSearch}
+                info={movie}
               />
-            </div>
-          )} />
-          <Route path='/info/:id' render={({ match }) => (
-            <MovieInfo
-              currentSearch={this.state.currentSearch}
-              id={match.params.id}
-              info={this.state.movie}
-            />
-          )} />
+            )}
+          />
         </div>
       </BrowserRouter>
-    )
+    );
   }
 }
 

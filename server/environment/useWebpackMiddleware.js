@@ -1,6 +1,6 @@
 import {} from 'dotenv/config';
 
-const useWebpackMiddleware = app => {
+const useWebpackMiddleware = (app) => {
   if (process.env.NODE_ENV === 'development') {
     /* eslint-disable */
     const config = require('../../webpack.dev.config.js');
